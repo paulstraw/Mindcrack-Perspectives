@@ -1,0 +1,10 @@
+<ul class="video-list group">
+	<% @episodes.each do |episode| %>
+		<li>
+			<%= link_to [@series, episode] do %>
+				<h2 class="futura-condensed"><%= episode.title %></h2>
+				<img src="http://img.youtube.com/vi/<%= episode.perspectives.first.video_id %>/mqdefault.jpg">
+			<% end %>
+		</li>
+	<% end %>
+</ul>

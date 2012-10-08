@@ -1,0 +1,44 @@
+@import "mixins.css.scss";
+
+html.episodes.show {
+	div.top {
+		h1 {
+			float: left; font-weight: normal; font-size: 38px; margin: 20px 0 0 10px; width: 50%;
+
+			a {
+				color: #fff; border: 0;
+
+				&:hover { color: #55c4d5; }
+			}
+		}
+
+		menu#controls {
+			float: right; @include background-y(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2), transparent); border: 1px solid #1D1D1D; @include border-radius(5px); @include box-shadow(0 1px rgba(255, 255, 255, 0.08)); list-style: none; margin: 27px 10px 0 0;
+
+			li {
+				float: left; font-size: 30px; vertical-align: bottom; cursor: pointer; padding: 6px 9px 1px; @include text-shadow(0 -1px rgba(0, 0, 0, 0.4));
+
+				&:first-child { padding-left: 15px; }
+				&:last-child { padding-right: 15px; }
+
+				&.play-pause { width: 38px; font-size: 24px; line-height: 30px; }
+
+				span.flip { display: block; @include transform(scaleX(-1)); }
+			}
+		}
+	}
+
+	div.perspective {
+		float: left; width: 50%; padding: 45px 0 0;
+
+		h2 {
+			font-weight: normal; font-size: 26px; margin: 0 0 4px 10px;
+
+			a {
+				border: 0; color: #fff;
+
+				&:hover { color: #55c4d5; }
+			}
+		}
+	}
+}

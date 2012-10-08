@@ -1,0 +1,19 @@
+<div class="top group">
+	<h1 class="futura-condensed"><%= link_to @series.title, @series %> — <%= @episode.title %></h1>
+
+	<menu id="controls" class="pictos">
+		<li class="backward"><span class="flip">]</span></li>
+		<li class="play-pause paused">></li>
+		<li class="forward">]</li>
+		<!-- <li class="sound">s</li> -->
+	</menu>
+</div>
+
+<div id="perspectives" class="group">
+	<% @perspectives.each do |perspective| %>
+		<div class="perspective" data-video-id="<%= perspective.video_id %>" data-offset="<%= perspective.start_offset %>">
+			<h2 class="futura-condensed"><a target="_blank" href="http://youtube.com/watch?v=<%= perspective.video_id %>"><%= perspective.user %></a></h2>
+			<div class="video"></div>
+		</div>
+	<% end %>
+</div>

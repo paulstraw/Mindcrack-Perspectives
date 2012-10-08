@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: MyString
+  video_id: MyString
+  start_offset: 1
+  episode: 
+
+two:
+  user: MyString
+  video_id: MyString
+  start_offset: 1
+  episode: 
