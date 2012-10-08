@@ -42,7 +42,7 @@ header {
 }
 
 ul.video-list {
-	list-style: none;
+	list-style: none; margin-top: 24px;
 
 	li {
 		@include background-y(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2), transparent); border: 1px solid #1D1D1D; @include border-radius(5px); @include box-shadow(0 1px rgba(255, 255, 255, 0.08)); float: left; margin: 4px; padding: 5px; position: relative;
