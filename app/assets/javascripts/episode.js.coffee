@@ -1,5 +1,6 @@
 if $('html').is '.episodes.show'
 	players = []
+	playStarted = false
 
 	window.onYouTubePlayerReady = (playerId) ->
 		$player = $("##{playerId}")
@@ -19,6 +20,11 @@ if $('html').is '.episodes.show'
 
 		#playing
 		if state == 1
+			unless playStarted
+				$(window).trigger 'startDurationDisplay'
+
+			playStarted = true
+
 			_.defer ->
 				allPlaying = _.all players, (player) ->
 					player.getPlayerState() == 1
@@ -31,15 +37,7 @@ if $('html').is '.episodes.show'
 		#paused
 		if state == 2
 			_.defer ->
-				allPaused = _.all players, (player) ->
-					player.getPlayerState() == 2
-
-				if allPaused
-					_.each players, (player, i) ->
-						#player.playVideo()
-
-						# unless i == 0
-						# 	player.mute()
+				window.playersReady = true
 
 		#unstarted
 		if state == -1
@@ -57,17 +55,46 @@ if $('html').is '.episodes.show'
 			_.each players, (player) ->
 				$('.play-pause').trigger 'pause'
 
-	window.onStateChange = (a, b, c) ->
-		#console.log 'state!', a, b, c
-
 	$(document).ready ->
 		perspectives = $('.perspective')
 		unique = 1
 		videoWidth = $(window).width() / 2
 		videoHeight = videoWidth / 1.7777777778
 
-		#play/pause button
+		$(window).on 'startDurationDisplay', ->
+			#set total duration for each player
+			$('.time').fadeIn 300
 
+			_.each players, (player) ->
+				el = $(player)
+
+				totalTime = player.getDuration()
+				totalMinutes = Math.floor totalTime / 60
+				totalSeconds = Math.round totalTime % 60
+
+				if totalSeconds < 10 then totalSeconds = '0' + totalSeconds
+
+				el.parent().find('.time .total').text "#{totalMinutes}:#{totalSeconds}"
+
+			#kickoff loop that updates current duration for each player
+			updateCurrentTime()
+
+
+		updateCurrentTime = ->
+			_.each players, (player) ->
+				el = $(player)
+
+				currentTime = player.getCurrentTime()
+				currentMinutes = Math.floor currentTime / 60
+				currentSeconds = Math.round currentTime % 60
+
+				if currentSeconds < 10 then currentSeconds = '0' + currentSeconds
+
+				el.parent().find('.time .current').text "#{currentMinutes}:#{currentSeconds}"
+
+			setTimeout updateCurrentTime, 1000
+
+		#play/pause button
 		$('.play-pause').on 'pause', (e) ->
 			el = $(this)
 
@@ -90,10 +117,8 @@ if $('html').is '.episodes.show'
 			el = $(this)
 
 			if el.hasClass('paused') && window.playersReady
-				console.log 'shouldplay'
 				el.trigger 'play'
 			else if el.hasClass 'playing'
-				console.log 'shouldpause'
 				el.trigger 'pause'
 
 		#forward button
@@ -113,6 +138,8 @@ if $('html').is '.episodes.show'
 			currentOffset = parseFloat($(players[0]).parent().data('offset')) || 0
 			currentTime = players[0].getCurrentTime() - currentOffset
 			newTime = currentTime - 10
+
+			if newTime < 0 then newTime = 0
 
 			_.each players, (player) ->
 				offset = parseFloat($(player).parent().data('offset')) || 0

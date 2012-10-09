@@ -12,7 +12,14 @@
 <div id="perspectives" class="group">
 	<% @perspectives.each do |perspective| %>
 		<div class="perspective" data-video-id="<%= perspective.video_id %>" data-offset="<%= perspective.start_offset %>">
-			<h2 class="futura-condensed"><a target="_blank" href="http://youtube.com/watch?v=<%= perspective.video_id %>"><%= perspective.user %></a></h2>
+			<div class="top group">
+				<h2 class="futura-condensed"><a target="_blank" href="http://youtube.com/watch?v=<%= perspective.video_id %>"><%= perspective.user %></a></h2>
+
+				<div class="time">
+					<span class="current"></span> / <span class="total"></span>
+				</div>
+			</div>
+
 			<div class="video"></div>
 		</div>
 	<% end %>
